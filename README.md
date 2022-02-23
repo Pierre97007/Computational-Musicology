@@ -5,8 +5,12 @@ The natural comparison points in the corpus are going to be: speechiness(expecta
 Plot description:
 
 The plot shows the male vs female rap songs, when it comes to the speechiness vs danceability of the songs. This plot is interesting, because it reinforces the hypothesis that the female rap songs have a hugher danceability.
+<<<<<<< HEAD
 
 this is a line from rstudio rr
 hag
 hge
 newline
+=======
+changes from git
+>>>>>>> 2a08e4132495c9277305d22e6907428af17dd3f4
