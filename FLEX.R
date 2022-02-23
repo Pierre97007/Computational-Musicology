@@ -1,36 +1,21 @@
 ---
 title: "COMPUTATIONAL MUSICOLOGY"
+author: "Pierre Mugisha"
 output: 
   flexdashboard::flex_dashboard:
-    orientation: columns
-    vertical_layout: fill
+    storyboard: true
 ---
 
-```{r setup, include=FALSE}
-library(flexdashboard)
-```
-
-Column {data-width=650}
------------------------------------------------------------------------
-
-### Chart A
-
+  
+  
+### new tab
+  
 ```{r}
 
 ```
 
-Column {data-width=350}
------------------------------------------------------------------------
 
-### Chart B
+  
+descr
 
-```{r}
-
-```
-
-### Chart C
-
-```{r}
-
-```
 
