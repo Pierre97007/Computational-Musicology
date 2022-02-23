@@ -9,7 +9,7 @@ wood <-
   select(start, duration, pitches)
 
 wood %>%
-  mutate(pitches = map(pitches, compmus_normalise, "manhattan")) %>%
+  mutate(pitches = map(pitches, compmus_normalise, "euclidean")) %>%
   compmus_gather_chroma() %>% 
   ggplot(
     aes(
