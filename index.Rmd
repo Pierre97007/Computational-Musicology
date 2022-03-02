@@ -167,6 +167,50 @@ ggplot(spot, aes(valence, energy, color=mode)) +
 ```
 ***
 
+### Chromagrams
+
+```{r}
+vinch1 <-
+  get_tidy_audio_analysis("7AnHS1o08tFXLmnOedcucv?si=2bba8cb44ac6432f") %>%
+  select(segments) %>%
+  unnest(segments) %>%
+  select(start, duration, pitches)
+
+vinch2 <-
+  get_tidy_audio_analysis("1M4nbJUGkuBhI7Tx9lmeXp?si=e602daaa62524623") %>%
+  select(segments) %>%
+  unnest(segments) %>%
+  select(start, duration, pitches)
+
+vinchenzo <-
+  bind_rows(
+    vinch1 %>% mutate(category = "Un diavolo scaccia l'altro"),
+    vinch2 %>% mutate(category = "Retributor")
+    
+  )
+
+vinchenzo %>%
+  mutate(pitches = map(pitches, compmus_normalise, "euclidean")) %>%
+  compmus_gather_chroma() %>% 
+  ggplot(
+    aes(
+      x = start + duration / 2,
+      width = duration,
+      y = pitch_class,
+      fill = value
+    )
+  ) +
+  geom_tile() +
+  facet_wrap(~category) +
+  labs(x = "Time (s)", y = NULL, fill = "Magnitude") +
+  theme_minimal() +
+  scale_fill_viridis_c()
+
+```
+
+***
+Chromagram using euclidean
+
 ### Conclusion
   
 ```{r}
