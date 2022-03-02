@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 title: "COMPUTATIONAL MUSICOLOGY"
 author: "Pierre Mugisha"
@@ -143,3 +144,150 @@ descr
 descr
 
 
+=======
+---
+title: "COMPUTATIONAL MUSICOLOGY"
+author: "Pierre Mugisha"
+output: 
+  flexdashboard::flex_dashboard:
+    storyboard: true
+---
+
+
+  
+### Introduction
+  
+```{r}
+library(tidyverse)
+library(spotifyr)
+library(dplyr)
+library(compmus)
+
+spot2020 <- get_playlist_audio_features("", "37i9dQZF1EMfweBkW6hPXV?si=540832d31503420a")
+spot <- get_playlist_audio_features("", "6BKuhkNHlpwnhcRBR5GMlz?si=128d70c3b2624650")
+
+spot2021 <- spot %>%
+  select(danceability, energy, key, loudness, mode, speechiness,
+         acousticness, instrumentalness, liveness, valence, tempo,
+         track.duration_ms, track.explicit, track.name, track.popularity,
+         track.album.release_date, track.album.artists)
+
+spot2020_1 <- spot2020 %>%
+  select(danceability, energy, key, loudness, mode, speechiness,
+         acousticness, instrumentalness, liveness, valence, tempo,
+         track.duration_ms, track.explicit, track.name, track.popularity,
+         track.album.release_date, track.album.artists)
+
+spot2021$newdate <- strptime(as.character(spot2021$track.album.release_date), "%Y-%m-%d")
+spot2021$year <- format(spot2021$newdate, "%Y")
+
+spot2021$newdate <- strptime(as.character(spot2021$track.album.release_date), "%Y")
+spot2021$year <- format(spot2021$newdate, "%Y")
+
+spot2020_1$newdate <- strptime(as.character(spot2020_1$track.album.release_date), "%Y-%m-%d")
+spot2020_1$year <- format(spot2020_1$newdate, "%Y")
+
+spot2020_1$newdate <- strptime(as.character(spot2020_1$track.album.release_date), "%Y")
+spot2020_1$year <- format(spot2020_1$newdate, "%Y")
+
+topnummers <-
+  bind_rows(
+    spot2020_1 %>% mutate(category = "2020"),
+    spot2021 %>% mutate(category = "2021")
+    
+  )
+
+topnummers %>%                    # Start with awards.
+  mutate(
+    mode = ifelse(mode == 0, "Minor", "Major")
+  ) %>%
+  ggplot(                     # Set up the plot.
+    aes(
+      x = valence,
+      y = energy,
+      size = loudness,
+      colour = mode
+    )
+  ) +
+  geom_point() +              # Scatter plot.
+  geom_rug(size = 0.1) +      # Add 'fringes' to show data distribution.
+  geom_text(                  # Add text labels from above.
+    aes(
+      x = valence,
+      y = energy,
+      label = label
+    ),
+    data = 
+      tibble(
+        label = c("", ""),
+        category = c("2020", "2021"),
+        valence = c(0.090, 0.123),
+        energy = c(0.101, 0.967)
+      ),
+    colour = "black",         # Override colour (not mode here).
+    size = 3,                 # Override size (not loudness here).
+    hjust = "left",           # Align left side of label with the point.
+    vjust = "bottom",         # Align bottom of label with the point.
+    nudge_x = -0.05,          # Nudge the label slightly left.
+    nudge_y = 0.02            # Nudge the label slightly up.
+  ) +
+  facet_wrap(~category) +     # Separate charts per playlist.
+  scale_x_continuous(         # Fine-tune the x axis.
+    limits = c(0, 1),
+    breaks = c(0, 0.50, 1),   # Use grid-lines for quadrants only.
+    minor_breaks = NULL       # Remove 'minor' grid-lines.
+  ) +
+  scale_y_continuous(         # Fine-tune the y axis in the same way.
+    limits = c(0, 1),
+    breaks = c(0, 0.50, 1),
+    minor_breaks = NULL
+  ) +
+  scale_colour_brewer(        # Use the Color Brewer to choose a palette.
+    type = "qual",            # Qualitative set.
+    palette = "Paired"        # Name of the palette is 'Paired'.
+  ) +
+  scale_size_continuous(      # Fine-tune the sizes of each point.
+    trans = "exp",            # Use an exp transformation to emphasise loud.
+    guide = "none"            # Remove the legend for size.
+  ) +
+  theme_light() +             # Use a simpler theme.
+  labs(                       # Make the titles nice.
+    x = "Valence",
+    y = "Energy",
+    colour = "Mode"
+  )
+
+```
+
+
+***
+  
+This storyboard is about my spotify wrapped playlist for 2021. For some features it is going to get compared to my spotify wrapped playlist of 2022.
+
+### Visualisation
+  
+```{r}
+ggplot(spot, aes(valence, energy, color=mode)) +
+  geom_point(alpha=0.6) +
+  theme_classic()
+
+```
+
+
+***
+  
+descr
+
+### Conclusion
+  
+```{r}
+
+```
+
+
+***
+  
+descr
+
+
+>>>>>>> f26df5c04e45874047803b351e982021f47e4a3b
