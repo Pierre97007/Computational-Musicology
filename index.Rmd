@@ -50,7 +50,7 @@ This storyboard is about my spotify wrapped playlist for 2021. For some features
 ***
 As said above, the corpora used in this storyboard are my spotify wrapped playlist for 2020 and 2021. I've chosen these corpora,  because I listen to multiple different genres each year, and these playlists are a summarization of the year. The interesting part of these playlists is that it can show me my music listening behaviour during the pandemic/lockdown(from the start in 2020 up untill close to the end of it 2021). 
 
-One of the natural "groups" in my corpus are the genres, I listen predominantly to the following genres: Hip Hop/Rap, House/Dance, Piano/Orchestra and sometimes Pop. I except some differences among these genres(e.g. tempo, speechiness, instrumentalness). Altough there is probably some overlap between the 2020 and the 2021 playlist, I also expect some differences between the playlist..
+One of the natural "groups" in my corpus are the genres, I listen predominantly to the following genres: Hip Hop/Rap, House/Dance, Piano/Orchestra and sometimes Pop. I except some differences among these genres(e.g. tempo, speechiness, instrumentalness). Altough there is probably some overlap between the 2020 and the 2021 playlist, I also expect some differences between the playlist.
 
 Some atypical tracks in my 2021 playlist are: "Un diavolo scaccia l'altro" of Lee Nyeom and "Retributor" of Lee Nyeom and Park Sejun. These tracks belong to the Original Television Soundtrack of VINCENZO -an K-action/drama show.
 
