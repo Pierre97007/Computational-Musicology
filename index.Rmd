@@ -7,7 +7,7 @@ output:
       version: 3
       bg: "#3000a1"
       fg: "#0058a1" 
-      primary: "#ED79F9"
+      primary: "#2ad613"
       navbar-bg: "#3000a1"
       base_font: 
         google: Prompt
@@ -19,9 +19,17 @@ output:
           family: JetBrains Mono
           local: false
     storyboard: true
+    self_contained: false
     
 ---
 
+```{r setup}
+library(tidyverse)
+library(plotly)
+library(dplyr)
+library(spotifyr)
+library(compmus)
+```
 
   
 ### Introduction
@@ -34,7 +42,9 @@ knitr::include_graphics("WHATS_NEW-HEADER-1440X733.png")
 
 ***
   
-This storyboard is about my spotify wrapped playlist for 2021. For some features it is going to get compared to my spotify wrapped playlist of 2022.
+This storyboard is about my spotify wrapped playlist for 2021. For some features it is going to get compared to my spotify wrapped playlist of 2020.
+
+<iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1EUMDoJuT8yJsl?utm_source=generator" width="100%" height="350" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
 
 
 ***
@@ -44,16 +54,241 @@ One of the natural "groups" in my corpus are the genres, I listen predominantly 
 
 Some atypical tracks in my 2021 playlist are: "Un diavolo scaccia l'altro" of Lee Nyeom and "Retributor" of Lee Nyeom and Park Sejun. These tracks belong to the Original Television Soundtrack of VINCENZO -an K-action/drama show.
 
+### Chordogram Analysis of a popular Intro
+```{r}
+circshift <- function(v, n) {
+  if (n == 0) v else c(tail(v, n), head(v, -n))
+}
+
+#      C     C#    D     Eb    E     F     F#    G     Ab    A     Bb    B
+major_chord <-
+  c(   1,    0,    0,    0,    1,    0,    0,    1,    0,    0,    0,    0)
+minor_chord <-
+  c(   1,    0,    0,    1,    0,    0,    0,    1,    0,    0,    0,    0)
+seventh_chord <-
+  c(   1,    0,    0,    0,    1,    0,    0,    1,    0,    0,    1,    0)
+
+major_key <-
+  c(6.35, 2.23, 3.48, 2.33, 4.38, 4.09, 2.52, 5.19, 2.39, 3.66, 2.29, 2.88)
+minor_key <-
+  c(6.33, 2.68, 3.52, 5.38, 2.60, 3.53, 2.54, 4.75, 3.98, 2.69, 3.34, 3.17)
+
+chord_templates <-
+  tribble(
+    ~name, ~template,
+    "Gb:7", circshift(seventh_chord, 6),
+    "Gb:maj", circshift(major_chord, 6),
+    "Bb:min", circshift(minor_chord, 10),
+    "Db:maj", circshift(major_chord, 1),
+    "F:min", circshift(minor_chord, 5),
+    "Ab:7", circshift(seventh_chord, 8),
+    "Ab:maj", circshift(major_chord, 8),
+    "C:min", circshift(minor_chord, 0),
+    "Eb:7", circshift(seventh_chord, 3),
+    "Eb:maj", circshift(major_chord, 3),
+    "G:min", circshift(minor_chord, 7),
+    "Bb:7", circshift(seventh_chord, 10),
+    "Bb:maj", circshift(major_chord, 10),
+    "D:min", circshift(minor_chord, 2),
+    "F:7", circshift(seventh_chord, 5),
+    "F:maj", circshift(major_chord, 5),
+    "A:min", circshift(minor_chord, 9),
+    "C:7", circshift(seventh_chord, 0),
+    "C:maj", circshift(major_chord, 0),
+    "E:min", circshift(minor_chord, 4),
+    "G:7", circshift(seventh_chord, 7),
+    "G:maj", circshift(major_chord, 7),
+    "B:min", circshift(minor_chord, 11),
+    "D:7", circshift(seventh_chord, 2),
+    "D:maj", circshift(major_chord, 2),
+    "F#:min", circshift(minor_chord, 6),
+    "A:7", circshift(seventh_chord, 9),
+    "A:maj", circshift(major_chord, 9),
+    "C#:min", circshift(minor_chord, 1),
+    "E:7", circshift(seventh_chord, 4),
+    "E:maj", circshift(major_chord, 4),
+    "G#:min", circshift(minor_chord, 8),
+    "B:7", circshift(seventh_chord, 11),
+    "B:maj", circshift(major_chord, 11),
+    "D#:min", circshift(minor_chord, 3)
+  )
+
+key_templates <-
+  tribble(
+    ~name, ~template,
+    "Gb:maj", circshift(major_key, 6),
+    "Bb:min", circshift(minor_key, 10),
+    "Db:maj", circshift(major_key, 1),
+    "F:min", circshift(minor_key, 5),
+    "Ab:maj", circshift(major_key, 8),
+    "C:min", circshift(minor_key, 0),
+    "Eb:maj", circshift(major_key, 3),
+    "G:min", circshift(minor_key, 7),
+    "Bb:maj", circshift(major_key, 10),
+    "D:min", circshift(minor_key, 2),
+    "F:maj", circshift(major_key, 5),
+    "A:min", circshift(minor_key, 9),
+    "C:maj", circshift(major_key, 0),
+    "E:min", circshift(minor_key, 4),
+    "G:maj", circshift(major_key, 7),
+    "B:min", circshift(minor_key, 11),
+    "D:maj", circshift(major_key, 2),
+    "F#:min", circshift(minor_key, 6),
+    "A:maj", circshift(major_key, 9),
+    "C#:min", circshift(minor_key, 1),
+    "E:maj", circshift(major_key, 4),
+    "G#:min", circshift(minor_key, 8),
+    "B:maj", circshift(major_key, 11),
+    "D#:min", circshift(minor_key, 3)
+  )
+
+intro <-
+  get_tidy_audio_analysis("2usrT8QIbIk9y0NEtQwS4j?si=dde7b9ecff10417b") %>%
+  compmus_align(sections, segments) %>%
+  select(sections) %>%
+  unnest(sections) %>%
+  mutate(
+    pitches =
+      map(segments,
+        compmus_summarise, pitches,
+        method = "mean", norm = "manhattan"
+      )
+  )
+
+intro %>% 
+  compmus_match_pitch_template(
+    key_templates,         # Change to chord_templates if descired
+    method = "euclidean",  # Try different distance metrics
+    norm = "manhattan"     # Try different norms
+  ) %>%
+  ggplot(
+    aes(x = start + duration / 2, width = duration, y = name, fill = d)
+  ) +
+  geom_tile() +
+  scale_fill_viridis_c(guide = "none") +
+  theme_minimal() +
+  labs(x = "Time (s)", y = "")
+
+```
+
+***
+One of the most instrumental songs in my spotify wrapped 2021 playlist, Intro by [The XX](https://genius.com/artists/The-xx).
+
+*“Intro”, a simple, two minute instrumental song is easily The xx’s most popular song. As of August 2017, it’s their most streamed song on Spotify. Notably, Rihanna sampled it for one of her songs, BBC used it as the soundtrack for their 2010 election coverage, and it was used in the coverage of many TV shows, including Law and Order.*
+*In 2017, Spotify released a list of the top 10 songs most frequently appearing in user-created “Sex” playlists globally. Intro appeared on the list, making it — by the standards of Spotify users — one of the sexiest songs in the world. -Genius annotation*
+
+The chordogram reflects the duration of the song clearly, because except from the part in the middle nd the end of the song nothing really changes beat-wise or key-wise. I think this is the reason why it is pleasant to listen to this song on repeat! 
+
+<iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/2usrT8QIbIk9y0NEtQwS4j?utm_source=generator" width="100%" height="380" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+
+### Keys to my ear
+```{r}
+spot2020 <- get_playlist_audio_features("", "37i9dQZF1EMfweBkW6hPXV?si=540832d31503420a")
+spot <- get_playlist_audio_features("", "6BKuhkNHlpwnhcRBR5GMlz?si=128d70c3b2624650")
+top40_100 <- get_playlist_audio_features("", "1cCwREdWvFoeesP9B1we1v?si=7a4e539147da488a")
+billboardhot100 <- get_playlist_audio_features("", "0ueT9dAlqLLaOxBuqQfN8Y?si=b9ba6f7ffd744eb9")
+
+#####Selecting
+spot2021 <- spot %>%
+  select(danceability, energy, key, loudness, mode, speechiness,
+         acousticness, instrumentalness, liveness, valence, tempo,
+         track.duration_ms, track.explicit, track.name, track.popularity,
+         track.album.release_date, track.album.artists)
+
+spot2020_1 <- spot2020 %>%
+  select(danceability, energy, key, loudness, mode, speechiness,
+         acousticness, instrumentalness, liveness, valence, tempo,
+         track.duration_ms, track.explicit, track.name, track.popularity,
+         track.album.release_date, track.album.artists)
+
+top40_2021 <- top40_100 %>%
+  select(danceability, energy, key, loudness, mode, speechiness,
+         acousticness, instrumentalness, liveness, valence, tempo,
+         track.duration_ms, track.explicit, track.name, track.popularity,
+         track.album.release_date, track.album.artists)
+
+billboardhot100_2021 <- billboardhot100 %>%
+  select(danceability, energy, key, loudness, mode, speechiness,
+         acousticness, instrumentalness, liveness, valence, tempo,
+         track.duration_ms, track.explicit, track.name, track.popularity,
+         track.album.release_date, track.album.artists)
+
+
+##Adding year
+spot2021$newdate <- strptime(as.character(spot2021$track.album.release_date), "%Y-%m-%d")
+spot2021$year <- format(spot2021$newdate, "%Y")
+
+spot2021$newdate <- strptime(as.character(spot2021$track.album.release_date), "%Y")
+spot2021$year <- format(spot2021$newdate, "%Y")
+
+spot2020_1$newdate <- strptime(as.character(spot2020_1$track.album.release_date), "%Y-%m-%d")
+spot2020_1$year <- format(spot2020_1$newdate, "%Y")
+
+spot2020_1$newdate <- strptime(as.character(spot2020_1$track.album.release_date), "%Y")
+spot2020_1$year <- format(spot2020_1$newdate, "%Y")
+
+top40_2021$newdate <- strptime(as.character(top40_2021$track.album.release_date), "%Y-%m-%d")
+top40_2021$year <- format(top40_2021$newdate, "%Y")
+
+top40_2021$newdate <- strptime(as.character(top40_2021$track.album.release_date), "%Y")
+top40_2021$year <- format(top40_2021$newdate, "%Y")
+
+billboardhot100_2021$newdate <- strptime(as.character(billboardhot100_2021$track.album.release_date), "%Y-%m-%d")
+billboardhot100_2021$year <- format(billboardhot100_2021$newdate, "%Y")
+
+billboardhot100_2021$newdate <- strptime(as.character(billboardhot100_2021$track.album.release_date), "%Y")
+billboardhot100_2021$year <- format(billboardhot100_2021$newdate, "%Y")
+
+
+topnummers <-
+  bind_rows(
+    spot2020_1 %>% mutate(category = "Spotify Wrapped 2020"),
+    spot2021 %>% mutate(category = "Spotify Wrapped 2021"),
+    billboardhot100_2021 %>% mutate(category = "Billboard Hot 100: 2021"),
+    top40_2021 %>% mutate(category = "Top40: Top 100 2021")
+)
+
+key_country <- topnummers%>%
+  select(track.name, category, key)%>%
+  group_by(category, key)%>%
+  mutate(n=n())%>%
+  unique()%>%
+  group_by(key)%>%
+  mutate(total=sum(n))%>%
+  mutate(percent=round((n/total)*100))
+
+green <- "#1ed760"
+yellow <- "#e7e247"
+pink <- "#ff6f59"
+blue <- "#007be0"
+
+viz3 <- ggplot(key_country, aes(x=key, fill=category, y = n, 
+                                text = paste("Number of Songs: ", n, "<br>",
+                                            "Percent Songs in Key: ", percent, "%")))+
+  geom_bar(width=0.5, stat = "identity")+
+  scale_fill_manual(values=c(green, yellow, pink, blue))+
+  labs(x="Key", y="Number of Songs") +
+  guides(fill=guide_legend(title="Playlist"))+
+  theme_minimal()+
+  ggtitle("Musical Key Makeup by Playlist")
+
+ggplotly(viz3, tooltip=c("text"))
+
+```
+***
+Musical key describes the scale on which a song is based. This means that most of the notes in a song will come from the scale of that key. In addition to my spotify wrapped 2020 -en 2021 playlists, the dutch top 100 of the top40 playlist and the Billboard top 100: 2021 are used for the key analysis
+
+***
+The barplot on the left shows the percentage of songs in each key that come from each playlist(key distribution across playlists). According to the spotify API, the integers map to pitches using standard Pitch Class notation. E.g. 0 = C, 1 = C♯/D♭, 2 = D, and so on. If no key was detected, the value is -1.
+It appears that I only have one song with the key-integer value of 3, in tonal, D-sharp/E-flat. The song in question is "Right Above It" by [Lil Wayne](https://genius.com/artists/Lil-wayne) and [Drake](https://genius.com/artists/Drake)
+
+*“Right Above It” is Lil Wayne’s first single from his fresh-out-of-prison album, I’m Not A Human Being. It’s produced by the legendary Kane Beatz of “We Be Steady Mobbin” fame. As of 2015, the song is used as the opening theme to the HBO series Ballers. -Genius Annotation*
+
+<iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/1kMuU3TNQvHbqvXCWBodmP?utm_source=generator" width="100%" height="380" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
 
 ### Preliminary Visualisations
   
 ```{r}
-library(tidyverse)
-library(spotifyr)
-library(dplyr)
-library(compmus)
-library(plotly)
-
 
 spot2020 <- get_playlist_audio_features("", "37i9dQZF1EMfweBkW6hPXV?si=540832d31503420a")
 spot <- get_playlist_audio_features("", "6BKuhkNHlpwnhcRBR5GMlz?si=128d70c3b2624650")
@@ -163,16 +398,6 @@ ggplotly(topnummers_gg)
   
 descr
 
-### Energy vs Valence
-
-```{r}
-
-ggplot(spot, aes(valence, energy, color=mode)) +
-  geom_point(alpha=0.6) +
-  theme_classic()
-```
-***
-
 
 ### Chromagrams
 
@@ -217,6 +442,10 @@ vinchenzo %>%
 
 ***
 Chromagram using euclidean
+
+<iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/1M4nbJUGkuBhI7Tx9lmeXp?utm_source=generator" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+
+<iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/7AnHS1o08tFXLmnOedcucv?utm_source=generator" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
 
 ###  Chroma -and Timbre Self-Similarity Matrices "Dark Horse" -Katy Perry, Juicy J
   
@@ -268,7 +497,13 @@ bind_rows(
 
 ***
   
-One song I liked to listen to in the gym in 2021 was 'Dark Horse'(2013) by Katy Perry and Juicy J, due to the "Trap"-type beat and the verse of Juicy J. The chroma-based matrix of the song, picks up mostly the chorus of the song. In the timbre matrix, one can see the beginning of every verse and the end of the chorus(tiny square that gets faintly darker) clearly.
+One song I liked to listen to in the gym in 2021 was 'Dark Horse'(2013) by [Katy Perry](https://genius.com/artists/Katy-perry) and [Juicy J](https://genius.com/artists/Juicy-j).
+
+*Commercially, the song became Perry’s overall ninth number one single on the Billboard Hot 100, and her second from PRISM, as “Roar” reached the top spot months prior.*
+
+due to the "Trap"-type beat and the verse of Juicy J. The chroma-based matrix of the song, picks up mostly the chorus of the song. In the timbre matrix, one can see the beginning of every verse and the end of the chorus(tiny square that gets faintly darker) clearly.
+
+<iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/5jrdCoLpJSvHHorevXBATy?utm_source=generator" width="100%" height="380" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
 
 ###  Chroma -and Timbre Self-Similarity Matrices "Power" -Kanye West
   
@@ -320,7 +555,15 @@ bind_rows(
 
 ***
 
-Another song I like to listen to in the gym is 'POWER' by Kanye West, this masterpiece, contains a lot of hidden messages in the lyrics and it contains vocals in the background almost throughout the whole song, this can be seen by the big square in the chroma matrix. 
+Another song I like to listen to in the gym is 'POWER' by *[Kanye West](https://genius.com/artists/Kanye-west)*.
+
+*During an interview with New York radio station Power 105.1, West said he spent thousands of hours working on this carefully-crafted song. “A song like ‘Power’ took 5,000 hours, like literally 5,000 man-hours to do this one record. That’s the amount of time I was putting into every song on the album,” West revealed.*
+*The accompanying music video has received critical acclaim. Russian supermodel Irina Shayk, who sits in a chair in the video, has called it “a moving painting”. -Genius Annotation*
+
+This masterpiece, contains a lot of hidden messages in the lyrics and it contains vocals in the background almost throughout the whole song, this can be seen by the big square in the chroma matrix.
+
+<iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/2gZUPNdnz5Y45eiGxpHGSc?utm_source=generator" width="100%" height="380" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+
 Another part of the song that is picked up by the chroma matrix, is the part after the bridge. Here, right around 3:20 the track seems to slow down for a moment, and then it continues with the normal speed.
 In the timbre matrix one can see the beginning and end of each verse.
 
@@ -330,7 +573,6 @@ In the timbre matrix one can see the beginning and end of each verse.
 
 ```
 
-<iframe src="https://open.spotify.com/embed/track/3n2NAmdRX21gSgKvVx4wMf" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
 
 
 
