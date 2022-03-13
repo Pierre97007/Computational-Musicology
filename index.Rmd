@@ -567,6 +567,10 @@ This masterpiece, contains a lot of hidden messages in the lyrics and it contain
 Another part of the song that is picked up by the chroma matrix, is the part after the bridge. Here, right around 3:20 the track seems to slow down for a moment, and then it continues with the normal speed.
 In the timbre matrix one can see the beginning and end of each verse.
 
+###
+```{r}
+
+```
 
 ### Conclusion
 ```{r}
