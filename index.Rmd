@@ -4,7 +4,7 @@ author: "Pierre Mugisha"
 output: 
   flexdashboard::flex_dashboard:
     theme:
-      version: 3
+      version: 4
       bg: "#3000a1"
       fg: "#0058a1" 
       primary: "#2ad613"
