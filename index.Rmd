@@ -96,8 +96,6 @@ One of my favorite club/dance song Dr.Who by [Tujamo](https://genius.com/artists
 
 As can be seen by the figure on the left the energy starts out quiet normal and spikes up when the drop begins which after it drops down again and spikes up during the last drop
 
-
-
 ### Chordogram Analysis of a popular Intro
 ```{r}
 circshift <- function(v, n) {
