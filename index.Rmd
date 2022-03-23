@@ -54,6 +54,50 @@ One of the natural "groups" in my corpus are the genres, I listen predominantly 
 
 Some atypical tracks in my 2021 playlist are: "Un diavolo scaccia l'altro" of Lee Nyeom and "Retributor" of Lee Nyeom and Park Sejun. These tracks belong to the Original Television Soundtrack of VINCENZO -an K-action/drama show.
 
+### DR.Who
+```{r}
+pata_pata <-
+  get_tidy_audio_analysis("4yn7TG8nnispmUITZ7Bnd4?si=bd4092a7c0484e66") %>%
+  select(segments) %>%
+  unnest(segments)
+
+pata_pata %>%
+  mutate(loudness_max_time = start + loudness_max_time) %>%
+  arrange(loudness_max_time) %>%
+  mutate(delta_loudness = loudness_max - lag(loudness_max)) %>%
+  ggplot(aes(x = loudness_max_time, y = pmax(0, delta_loudness))) +
+  geom_line() +
+  xlim(0, 100) +
+  theme_minimal() +
+  labs(x = "Time (s)", y = "Novelty")
+
+pata_pata %>%
+  mutate(pitches = map(pitches, compmus_normalise, "clr")) %>%
+  arrange(start) %>%
+  mutate(pitches = map2(pitches, lag(pitches), `-`)) %>%
+  slice(-1) %>% 
+  compmus_gather_chroma() %>% 
+  group_by(start, duration) %>% 
+  summarise(novelty = sum(log1p(pmax(value, 0)))) %>% 
+  ggplot(aes(x = start + duration / 2, y = novelty)) +
+  geom_line() +
+  xlim(0, 100) +
+  theme_minimal() +
+  labs(x = "Time (s)", y = "Novelty")
+
+```
+
+***
+One of my favorite club/dance song Dr.Who by [Tujamo](https://genius.com/artists/Tujamo) and [Plastic Funk](https://genius.com/artists/Plastik-funk)
+
+*"Who" was first released as an instrumental in 2012. It became a hit at Winter Music Conference and was played by artists such as Avicii. In 2014, the song was rehashed as "Dr. Who!" and had vocals added to it by British rapper Sneakbo.These vocals namecheck Doctor Who, though do not directly pertain to the series.-wikipedia *
+
+<iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/4yn7TG8nnispmUITZ7Bnd4?utm_source=generator" width="100%" height="380" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+
+As can be seen by the figure on the left the energy starts out quiet normal and spikes up when the drop begins which after it drops down again and spikes up during the last drop
+
+
+
 ### Chordogram Analysis of a popular Intro
 ```{r}
 circshift <- function(v, n) {
