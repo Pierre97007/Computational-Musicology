@@ -318,7 +318,7 @@ ggplotly(viz3, tooltip=c("text"))
 
 ```
 ***
-Musical key describes the scale on which a song is based. This means that most of the notes in a song will come from the scale of that key. In addition to my spotify wrapped 2020 -en 2021 playlists, the dutch top 100 of the top40 playlist and the Billboard top 100: 2021 are used for the key analysis
+Musical key describes the scale on which a song is based. This means that most of the notes in a song will come from the scale of that key. In addition to my spotify wrapped 2020 -en 2021 playlists, the dutch top 100 of the top40 playlist and the Billboard top 100: 2021 are used for the key analysis.
 
 ***
 The barplot on the left shows the percentage of songs in each key that come from each playlist(key distribution across playlists). According to the spotify API, the integers map to pitches using standard Pitch Class notation. E.g. 0 = C, 1 = C♯/D♭, 2 = D, and so on. If no key was detected, the value is -1.
