@@ -3,7 +3,6 @@ title: "COMPUTATIONAL MUSICOLOGY"
 author: "Pierre Mugisha"
 output: 
   flexdashboard::flex_dashboard:
-    css: styles.css
     theme:
       version: 4
       bg: "#3000a1"
