@@ -3,6 +3,7 @@ title: "COMPUTATIONAL MUSICOLOGY"
 author: "Pierre Mugisha"
 output: 
   flexdashboard::flex_dashboard:
+    css: styles.css
     theme:
       version: 4
       bg: "#3000a1"
@@ -31,7 +32,10 @@ library(spotifyr)
 library(compmus)
 ```
 
-  
+
+```{r}
+
+```
 ### Introduction
   
 ```{r picture, echo = F, fig.cap = "newsroom.spotify.com", out.width = '100%'}
@@ -53,6 +57,14 @@ As said above, the corpora used in this storyboard are my spotify wrapped playli
 One of the natural "groups" in my corpus are the genres, I listen predominantly to the following genres: Hip Hop/Rap, House/Dance, Piano/Orchestra and sometimes Pop. I except some differences among these genres(e.g. tempo, speechiness, instrumentalness). Altough there is probably some overlap between the 2020 and the 2021 playlist, I also expect some differences between the playlist.
 
 Some atypical tracks in my 2021 playlist are: "Un diavolo scaccia l'altro" of Lee Nyeom and "Retributor" of Lee Nyeom and Park Sejun. These tracks belong to the Original Television Soundtrack of VINCENZO -an K-action/drama show.
+
+### DENDOGRAM
+
+```{r}
+
+```
+
+***
 
 ### DR.Who
 ```{r}
