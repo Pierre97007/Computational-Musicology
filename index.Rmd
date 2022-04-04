@@ -137,8 +137,9 @@ halloween_dist %>%
 ```
 
 ***
+The Dendogram on the left shows my top 50 songs clustered in different clusters. Using the average distance the result looks promising. For example, the dendogram clustered "Un diavolo scacci" and "Retributor" together, which have the same artists and both come from the same album. Further, I noticed that "Raw" and "Dansen Aan De Gracht" are also clustered together, which makes scence, because they are both Dutch Rap/Hip Hop songs. Moreover a lot of the Dutch songs seems to be clustered together. Perhaps that language is a strong discriminator!
 
-### DR.Who
+### DR.Who?
 ```{r}
 pata_pata <-
   get_tidy_audio_analysis("4yn7TG8nnispmUITZ7Bnd4?si=bd4092a7c0484e66") %>%
